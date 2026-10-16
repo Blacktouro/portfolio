@@ -1,0 +1,11 @@
+.env
+node_modules
+dist
+data/
+*.db
+*.sqlite*
+bin/
+obj/
+*.bak
+*.log
+frontend/src-backup/

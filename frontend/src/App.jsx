@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { content, links, stack } from "./content.js";
 import { pathFor, findProject, findArticle, sortedArticles } from "./routes.js";
+import { cv } from "./cv.js";
 import "./extra.css";
 
 const API = "/api";
@@ -58,6 +59,7 @@ export default function App({ route }) {
   if (user) page = <Projects user={user} ui={ui} onExpired={logout} />;
   else if (route.kind === "home") page = <Home c={c} ui={ui} lang={lang} onLogin={() => setLoginOpen(true)} />;
   else if (route.kind === "project") page = <ProjectPage p={findProject(lang, route.slug)} c={c} ui={ui} lang={lang} />;
+  else if (route.kind === "cv") page = <CvPage lang={lang} c={c} />;
   else if (route.kind === "articles") page = <ArticlesIndex ui={ui} lang={lang} c={c} />;
   else if (route.kind === "article") page = <ArticlePage a={findArticle(route.slug)} ui={ui} lang={lang} c={c} />;
   else page = <NotFound ui={ui} lang={lang} />;
@@ -73,6 +75,7 @@ export default function App({ route }) {
         <nav className="topbar-actions" aria-label={lang === "pt" ? "Principal" : "Main"}>
           <a className="nav-link" href={`${home}#projetos`}>{ui.navProjects}</a>
           <a className="nav-link" href={pathFor(lang, "articles")}>{ui.navArticles}</a>
+          <a className="nav-link" href={pathFor(lang, "cv")}>{ui.navCv}</a>
           <a className="btn ghost lang-toggle" href={route.alt} hrefLang={lang === "pt" ? "en" : "pt-PT"} aria-label={ui.switchLabel}>
             {ui.switchTo}
           </a>
@@ -249,6 +252,7 @@ function Home({ c, ui, lang, onLogin }) {
           <p className="lead">{c.tagline}</p>
           <div className="actions">
             <a className="btn solid" href="#projetos">{ui.seeWork}</a>
+            <a className="btn ghost" href={pathFor(lang, "cv")}>{ui.seeCv}</a>
             <a className="btn wa" href={wa} target="_blank" rel="noreferrer"><ChatIcon /> {ui.whatsapp}</a>
             <a className="btn ghost" href={links.github} target="_blank" rel="noopener me">GitHub</a>
             {links.linkedin && <a className="btn ghost" href={links.linkedin} target="_blank" rel="noopener me">LinkedIn</a>}
@@ -604,6 +608,91 @@ function NotFound({ ui, lang }) {
         <p className="lead">{ui.notFoundText}</p>
         <p className="actions"><a className="btn solid" href={pathFor(lang, "home")}>{ui.notFoundLink}</a></p>
       </header>
+    </main>
+  );
+}
+
+function CvPage({ lang, c }) {
+  const v = cv[lang];
+  const t = v.ui;
+  const pdf = lang === "pt" ? "/andre-cardoso-cv-pt.pdf" : "/andre-cardoso-cv-en.pdf";
+  const site = "andrecardoso.dev";
+  return (
+    <main className="page cv">
+      <p className="cv-actions">
+        <a className="btn solid" href={pdf} download>{t.download}</a>
+      </p>
+      <article className="cv-sheet">
+        <header className="cv-head">
+          {cv.photo && <img className="cv-photo" src={cv.photo} alt="André Cardoso" width="112" height="112" />}
+          <div>
+            <h1>{c.name}</h1>
+            <p className="cv-headline">{v.headline}</p>
+            <ul className="cv-contacts">
+              <li>{v.location}</li>
+              <li><a href={`mailto:${links.email}`}>{links.email}</a></li>
+              <li><a href={`tel:+${links.whatsapp}`}>{links.whatsappDisplay}</a></li>
+              <li><a href={`https://${site}`}>{site}</a></li>
+              <li><a href={links.github} rel="me noopener">github.com/{links.github.split("/").pop()}</a></li>
+              {links.linkedin && <li><a href={links.linkedin} rel="me noopener">LinkedIn</a></li>}
+            </ul>
+          </div>
+        </header>
+
+        <section>
+          <h2>{t.summary}</h2>
+          <p>{v.summary}</p>
+        </section>
+
+        <section>
+          <h2>{t.skills}</h2>
+          <dl className="cv-skills">
+            {v.skills.map(([k, val]) => (
+              <div key={k}><dt>{k}</dt><dd>{val}</dd></div>
+            ))}
+          </dl>
+        </section>
+
+        <section>
+          <h2>{t.experience}</h2>
+          {v.experience.map((e) => (
+            <div className="cv-job" key={e.company}>
+              <h3>{e.role} <span>· {e.company}</span></h3>
+              <p className="cv-dates">{e.dates}</p>
+              <ul>{e.bullets.map((b) => <li key={b}>{b}</li>)}</ul>
+            </div>
+          ))}
+        </section>
+
+        <section>
+          <h2>{t.projects}</h2>
+          <ul className="cv-projects">
+            {v.projects.map((p) => (
+              <li key={p.name}>
+                <strong>{p.project ? <a href={pathFor(lang, "project", p.project)}>{p.name}</a> : p.name}</strong>
+                {" – "}{p.text}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <div className="cv-cols">
+          <section>
+            <h2>{t.education}</h2>
+            <ul className="cv-plain">
+              {v.education.map(([e, y]) => <li key={e}>{e}{y && <span className="cv-dates"> · {y}</span>}</li>)}
+            </ul>
+          </section>
+          <section>
+            <h2>{t.languages}</h2>
+            <ul className="cv-plain">
+              {v.languages.map(([l, lv]) => <li key={l}><strong>{l}</strong> – {lv}</li>)}
+            </ul>
+            <h2>{t.interests}</h2>
+            <p>{v.interests}</p>
+          </section>
+        </div>
+      </article>
     </main>
   );
 }

@@ -2,6 +2,7 @@
 // Cada rota é pré-renderizada em HTML no build (ver prerender.mjs).
 import { content, links, seo } from "./content.js";
 import { articles } from "./articles.js";
+import { cv } from "./cv.js";
 
 export const SITE = "https://andrecardoso.dev";
 const PERSON_ID = `${SITE}/#person`;
@@ -17,6 +18,7 @@ export function pathFor(lang, kind, slug) {
   const p = prefix[lang];
   if (kind === "home") return `${p}/`;
   if (kind === "articles") return `${p}/${seg[lang].articles}/`;
+  if (kind === "cv") return `${p}/cv/`;
   if (kind === "project") return `${p}/${seg[lang].projects}/${slug}/`;
   if (kind === "article") return `${p}/${seg[lang].articles}/${slug}/`;
   return "/";
@@ -32,6 +34,7 @@ export function allRoutes() {
   const list = [];
   for (const lang of ["pt", "en"]) {
     list.push(route(lang, "home"));
+    list.push(route(lang, "cv"));
     for (const p of content[lang].cases) list.push(route(lang, "project", p.slug));
     list.push(route(lang, "articles"));
     for (const a of articles) list.push(route(lang, "article", a.slug));
@@ -148,6 +151,30 @@ export function headFor(r) {
         inLanguage: lang === "pt" ? "pt-PT" : "en",
         author: authorRef,
         ...(p.repo ? { codeRepository: p.repo } : {}),
+      },
+    ];
+  } else if (r.kind === "cv") {
+    const v = cv[lang];
+    title = lang === "pt" ? "CV de André Cardoso | Sysadmin Linux e DevOps" : "André Cardoso CV | Linux Sysadmin & DevOps";
+    description = v.summary.slice(0, 155).replace(/\s+\S*$/, "") + "…";
+    type = "profile";
+    graph = [
+      crumbs([home, ["CV", r.path]]),
+      {
+        "@type": "ProfilePage",
+        url: abs(r.path),
+        name: title,
+        inLanguage: lang === "pt" ? "pt-PT" : "en",
+        mainEntity: {
+          ...authorRef,
+          jobTitle: v.headline,
+          image: cv.photo ? abs(cv.photo) : undefined,
+          address: { "@type": "PostalAddress", addressLocality: "Peniche", addressCountry: "PT" },
+          hasOccupation: { "@type": "Occupation", name: v.headline, skills: v.skills.map((s) => s[1]).join(", ") },
+          alumniOf: { "@type": "EducationalOrganization", name: v.education[0][0] },
+          knowsLanguage: v.languages.map((l) => l[0]),
+          worksFor: { "@type": "Organization", name: v.experience[0].company },
+        },
       },
     ];
   } else if (r.kind === "articles") {

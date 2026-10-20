@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { content, links, stack } from "./content.js";
+import { content, links, seo, stack } from "./content.js";
 import "./extra.css";
 
 const API = "/api";
@@ -49,6 +49,8 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = lang;
+    document.title = seo[lang].title;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", seo[lang].description);
     try { localStorage.setItem("lang", lang); } catch {}
   }, [lang]);
 
@@ -138,6 +140,34 @@ function ServiceIcon({ name }) {
 
 /* Ilustrações originais para os cartões de projeto */
 function CaseArt({ kind }) {
+  if (kind === "data") return (
+    <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#123a5c" />
+      <rect x="60" y="40" width="110" height="150" rx="12" fill="#e9f2fb" />
+      {[64, 82, 100, 118].map((y) => <rect key={y} x="76" y={y} width={y % 36 ? 78 : 56} height="8" rx="4" fill="#9db7d1" />)}
+      <rect x="76" y="140" width="78" height="34" rx="6" fill="#ffd166" />
+      <path d="M185 115h30" stroke="#ffd166" strokeWidth="4" strokeLinecap="round" />
+      <path d="M207 105l10 10-10 10" stroke="#ffd166" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      {[[240, 120], [270, 90], [300, 140], [330, 70]].map(([x, h], i) =>
+        <rect key={i} x={x} y={190 - h} width="22" height={h} rx="4" fill={i === 3 ? "#5fd3b4" : "#7fb2e5"} />)}
+      <path d="M240 60l30 22 30-14 40 -24" stroke="#ff7a6b" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+  if (kind === "clock") return (
+    <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#1f4d36" />
+      <circle cx="200" cy="110" r="72" fill="#f3fbf5" />
+      <circle cx="200" cy="110" r="72" fill="none" stroke="#8fe3a8" strokeWidth="8" />
+      {Array.from({ length: 12 }, (_, i) => {
+        const a = (i * Math.PI) / 6;
+        return <line key={i} x1={200 + 56 * Math.sin(a)} y1={110 - 56 * Math.cos(a)} x2={200 + 64 * Math.sin(a)} y2={110 - 64 * Math.cos(a)} stroke="#1f4d36" strokeWidth={i % 3 ? 2 : 4} strokeLinecap="round" />;
+      })}
+      <path d="M200 110V68M200 110l30 18" stroke="#1f4d36" strokeWidth="6" strokeLinecap="round" />
+      <circle cx="200" cy="110" r="6" fill="#ff7a6b" />
+      <rect x="300" y="150" width="60" height="34" rx="8" fill="#8fe3a8" />
+      <path d="M315 167l8 8 16-16" stroke="#1f4d36" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
   if (kind === "security") return (
     <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <rect width="400" height="220" fill="#0f3b3a" />
@@ -189,7 +219,7 @@ function CaseCard({ p, ui }) {
   return (
     <article className={`case-card art-${p.art || "web"}`}>
       <div className="case-media">
-        {p.image ? <img src={p.image} alt={p.title} loading="lazy" /> : <CaseArt kind={p.art} />}
+        {p.image ? <img src={p.image} alt={p.title} loading="lazy" width="400" height="220" /> : <CaseArt kind={p.art} />}
       </div>
       <div className="case-content">
         <h3>{p.title}</h3>
@@ -198,6 +228,12 @@ function CaseCard({ p, ui }) {
           <ul className="chips" aria-label={ui.stackLabel}>
             {p.tags.map((t) => <li key={t}>{t}</li>)}
           </ul>
+        )}
+        {(p.url || p.repo) && (
+          <p className="case-links">
+            {p.url && <a href={p.url} target="_blank" rel="noopener noreferrer">{ui.visit} ↗</a>}
+            {p.repo && <a href={p.repo} target="_blank" rel="noopener noreferrer">{ui.code} ↗</a>}
+          </p>
         )}
         <button className="case-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
           {open ? ui.hideDetails : ui.details}
@@ -231,8 +267,8 @@ function Home({ c, ui, onLogin }) {
           <div className="actions">
             <a className="btn solid" href="#projetos">{ui.seeWork}</a>
             <a className="btn wa" href={wa} target="_blank" rel="noreferrer"><ChatIcon /> {ui.whatsapp}</a>
-            <a className="btn ghost" href={links.github} target="_blank" rel="noreferrer">GitHub</a>
-            <a className="btn ghost" href={links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+            <a className="btn ghost" href={links.github} target="_blank" rel="noopener noreferrer me">GitHub</a>
+            {links.linkedin && <a className="btn ghost" href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
           </div>
         </div>
       </section>

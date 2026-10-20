@@ -187,3 +187,20 @@ html { scroll-behavior: smooth; }
 @media print {
   .wa-float { display: none; }
 }
+
+/* Links "Ver online" / "Código" nos cartões de projeto */
+.case-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0.25rem 0 0.75rem;
+}
+.case-links a {
+  font-weight: 600;
+  color: inherit;
+  text-underline-offset: 3px;
+}
+.case-links a:focus-visible {
+  outline: 3px solid #ffd166;
+  outline-offset: 3px;
+}

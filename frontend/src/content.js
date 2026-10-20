@@ -4,24 +4,39 @@ export const links = {
   email: "salvador0988@sapo.pt",
   whatsapp: "351938041038",                         // número com indicativo, sem + nem espaços
   whatsappDisplay: "+351 938 041 038",
-  github: "https://github.com/teu-utilizador",      // ✏️
-  linkedin: "https://www.linkedin.com/in/teu-perfil", // ✏️
+  github: "https://github.com/Blacktouro",
+  linkedin: "",                                     // ✏️ cola aqui o link do teu LinkedIn. Vazio = botão escondido
   calendar: "",                                     // ✏️ opcional: link do Cal.com. Vazio = botão escondido
 };
 
 export const stack = [
-  "Linux", "Docker", "nginx", "Wazuh", "Cloudflare",
-  "React", "Vite", "Node.js", "Express", "Python", "PostgreSQL",
+  "Linux", "Docker", "Docker Compose", "nginx", "Jenkins", "CI/CD", "Git", "GitHub",
+  "Wazuh", "Cloudflare", "Let's Encrypt", "Bash",
+  "React", "Vite", "Node.js", "Express", "Python", "PostgreSQL", "OpenRPA", "SAP",
 ];
+
+// Texto usado no <title> e na meta description, por idioma (o App troca-os ao mudar de língua)
+export const seo = {
+  pt: {
+    title: "André Cardoso | DevOps e Sysadmin Linux · Docker, CI/CD e Segurança",
+    description:
+      "Sysadmin Linux com 5 anos de experiência e foco em DevOps. Docker, nginx, CI/CD com Jenkins, segurança com Wazuh e apps self-hosted em produção. Peniche, Portugal.",
+  },
+  en: {
+    title: "André Cardoso | DevOps & Linux Sysadmin · Docker, CI/CD & Security",
+    description:
+      "Linux sysadmin with 5 years of experience, focused on DevOps. Docker, nginx, CI/CD with Jenkins, Wazuh security and self-hosted apps in production. Based in Portugal.",
+  },
+};
 
 export const content = {
   pt: {
     name: "André Cardoso",
-    tagline: "Monto, protejo e mantenho aplicações web e IA privada em servidores que tu controlas.",
-    location: "Lisboa, Portugal",
+    tagline: "Sysadmin Linux focado em DevOps. Ponho aplicações em produção com Docker, CI/CD, monitorização e segurança, em servidores que eu próprio giro.",
+    location: "Peniche, Portugal",
 
     about:
-      "Trabalho em sysadmin e helpdesk e sou programador full-stack. Gosto de levar uma ideia até estar online, com domínio, HTTPS, monitorização e segurança tratados desde o primeiro dia. Aprendo melhor a fazer, por isso o meu VPS é também o meu laboratório.",
+      "Trabalho há cerca de 5 anos como sysadmin Linux e estou a dar o passo para DevOps. Gosto de levar uma ideia até estar online, com domínio, HTTPS, monitorização e segurança tratados desde o primeiro dia. Aprendo melhor a fazer, por isso o meu VPS é também o meu laboratório: corre várias aplicações minhas em Docker, atrás de nginx, protegidas por firewall e Wazuh.",
 
     services: [
       {
@@ -31,13 +46,13 @@ export const content = {
       },
       {
         icon: "spark",
-        title: "IA privada e automação",
-        text: "Assistentes de IA e automações a correr na tua infraestrutura, com os dados a ficar na Europa.",
+        title: "Automação e IA privada",
+        text: "Automações de processos (incluindo RPA sobre SAP) e assistentes de IA a correr na tua infraestrutura, com os dados a ficar na Europa.",
       },
       {
         icon: "server",
-        title: "Deploy e manutenção de aplicações",
-        text: "Docker, nginx, domínios, certificados e backups. Ponho a tua aplicação online e mantenho-a a funcionar.",
+        title: "Deploy, CI/CD e manutenção",
+        text: "Docker, nginx, pipelines com Jenkins, domínios, certificados e backups. Ponho a tua aplicação online e mantenho-a a funcionar.",
       },
     ],
 
@@ -53,39 +68,61 @@ export const content = {
         tags: ["Wazuh", "Firewall", "Dozzle", "Docker"],
       },
       {
+        art: "data",
+        image: "",
+        title: "Caderneta: registo de apostas com OCR",
+        summary: "App web multi-utilizador que lê prints e transforma-os em dados e estatísticas.",
+        problem: "Registar apostas à mão é lento e cheio de erros, e os dados ficam espalhados por capturas de ecrã.",
+        solution: "Frontend em React com login, backend que extrai os dados dos prints por OCR e guarda só o resultado (as imagens não ficam no servidor). Página partilhada com análises pré-jogo, previsões e taxa de acerto. Corre em Docker atrás de nginx, num subdomínio próprio na Cloudflare, com deploy a evoluir para Jenkins.",
+        result: "Em produção desde outubro de 2026, com dados reais e vários utilizadores.",
+        tags: ["React", "OCR", "Docker", "nginx", "Jenkins"],
+        url: "https://apostas.andrecardoso.dev",
+      },
+      {
+        art: "clock",
+        image: "",
+        title: "Horas: pica-ponto self-hosted",
+        summary: "Aplicação de registo de horas de trabalho, alojada no meu próprio servidor.",
+        problem: "As ferramentas de pica-ponto comerciais são pagas e guardam os dados de horário em servidores de terceiros.",
+        solution: "Aplicação web em Docker, publicada num subdomínio com nginx como reverse proxy e HTTPS, no mesmo VPS monitorizado pelo Wazuh.",
+        result: "Registo de entradas e saídas acessível em qualquer dispositivo, com os dados sob o meu controlo.",
+        tags: ["Docker", "nginx", "Self-hosting"],
+        url: "https://horas.andrecardoso.dev",
+      },
+      {
+        art: "ai",
+        image: "",
+        title: "Automação de compras no SAP com OpenRPA",
+        summary: "Um robô que cria requisições e encomendas de compra no SAP sem intervenção manual.",
+        problem: "Criar requisições (PR) e encomendas (PO) no SAP a partir dos dados de outro sistema era trabalho manual e repetitivo.",
+        solution: "Robô em OpenRPA que lê os dados pela API do outro software e preenche o SAP automaticamente.",
+        result: "Menos introdução manual de dados e menos erros num processo que se repete todos os dias.",
+        tags: ["OpenRPA", "SAP", "API", "Automação"],
+      },
+      {
         art: "web",
         image: "", // ✏️ opcional: ex. "/images/web.png" (põe o ficheiro em frontend/public/images/)
         title: "Este site, do servidor ao ecrã",
         summary: "Portfólio com frontend, API e área privada, alojado e protegido por mim.",
         problem: "Queria um site próprio, rápido e seguro, sem depender de plataformas de terceiros.",
-        solution: "React e uma API em Node em Docker, atrás de nginx com HTTPS da Let's Encrypt, DNS na Cloudflare, cabeçalhos de segurança e migração do domínio antigo com redirecionamentos 301.",
+        solution: "React e uma API em Node em Docker Compose, atrás de nginx com HTTPS da Let's Encrypt, DNS na Cloudflare, cabeçalhos de segurança, login com JWT e proteção contra força bruta, e painel que verifica se cada projeto está online.",
         result: "Um site em domínio próprio, com HTTPS obrigatório e renovação automática de certificados.",
         tags: ["React", "Node.js", "nginx", "Cloudflare"],
-      },
-      {
-        // ✏️ Confirma e completa este projeto com os detalhes reais
-        art: "ai",
-        image: "",
-        title: "TaskIA",
-        summary: "Uma ferramenta do dia a dia com um modelo de linguagem integrado.",
-        problem: "✏️ Que problema resolve?",
-        solution: "✏️ Como funciona e que tecnologias usa?",
-        result: "✏️ O que mudou para quem o usa?",
-        tags: ["IA", "Python"],
+        repo: "https://github.com/Blacktouro/portfolio",
       },
     ],
 
     skills: [
-      { title: "Servidores", text: "Linux, Docker, nginx e certificados. Faço o deploy e a manutenção das minhas próprias aplicações." },
-      { title: "Segurança", text: "Firewall, hardening, SIEM e análise de logs." },
+      { title: "Servidores", text: "5 anos de Linux em produção. Docker, Docker Compose, nginx e certificados; faço o deploy e a manutenção das minhas próprias aplicações." },
+      { title: "CI/CD e automação", text: "Pipelines com Jenkins em Docker, Git e GitHub, scripts em Bash e Python, e RPA para processos de negócio." },
+      { title: "Segurança e observabilidade", text: "Firewall, hardening, SIEM com Wazuh, centralização e análise de logs." },
       { title: "Desenvolvimento", text: "Interfaces em React e APIs em Node e Python, com autenticação e bases de dados." },
-      { title: "Suporte", text: "Anos de helpdesk: sei explicar tecnologia a quem não é técnico." },
     ],
 
     likes: [
       "Automatizar tudo o que repito mais de duas vezes",
       "Self-hosting e brincar com o meu VPS",
-      "Café e bons fones",
+      "Monitorização: gráficos, alertas e logs",
       "Futebol ao fim de semana",
       "Aprender uma tecnologia nova por projeto",
     ],
@@ -99,6 +136,8 @@ export const content = {
       waText: "Olá André, vi o teu site e gostava de falar contigo.",
       details: "Ver detalhes",
       hideDetails: "Esconder detalhes",
+      visit: "Ver online",
+      code: "Código",
       bookCall: "Marcar uma conversa",
       servicesTitle: "Como posso ajudar",
       casesTitle: "Projetos",
@@ -110,7 +149,7 @@ export const content = {
       stackLabel: "Tecnologias",
       likesTitle: "O que gosto",
       contactTitle: "Vamos conversar",
-      contactText: "Tens um servidor sem monitorização ou queres usar IA sem enviar dados para fora? Fala comigo por WhatsApp ou email.",
+      contactText: "Procuras um DevOps ou sysadmin, tens um servidor sem monitorização ou queres usar IA sem enviar dados para fora? Fala comigo por WhatsApp ou email.",
       privateText: "Painel privado",
       login: "Entrar",
       logout: "Sair",
@@ -134,11 +173,11 @@ export const content = {
 
   en: {
     name: "André Cardoso",
-    tagline: "I build, secure and run web apps and private AI on servers you control.",
-    location: "Lisbon, Portugal",
+    tagline: "Linux sysadmin moving into DevOps. I take apps to production with Docker, CI/CD, monitoring and security, on servers I run myself.",
+    location: "Peniche, Portugal",
 
     about:
-      "I work in sysadmin and helpdesk, and I'm a full-stack developer. I like taking an idea all the way to production, with domain, HTTPS, monitoring and security handled from day one. I learn best by doing, so my VPS doubles as my lab.",
+      "I've worked as a Linux sysadmin for about 5 years and I'm moving into DevOps. I like taking an idea all the way to production, with domain, HTTPS, monitoring and security handled from day one. I learn best by doing, so my VPS doubles as my lab: it runs several of my own apps in Docker, behind nginx, protected by a firewall and Wazuh.",
 
     services: [
       {
@@ -148,13 +187,13 @@ export const content = {
       },
       {
         icon: "spark",
-        title: "Private AI and automation",
-        text: "AI assistants and automations running on your own infrastructure, with your data staying in Europe.",
+        title: "Automation and private AI",
+        text: "Process automation (including RPA on SAP) and AI assistants running on your own infrastructure, with your data staying in Europe.",
       },
       {
         icon: "server",
-        title: "App deployment and maintenance",
-        text: "Docker, nginx, domains, certificates and backups. I get your app online and keep it running.",
+        title: "Deployment, CI/CD and maintenance",
+        text: "Docker, nginx, Jenkins pipelines, domains, certificates and backups. I get your app online and keep it running.",
       },
     ],
 
@@ -170,39 +209,61 @@ export const content = {
         tags: ["Wazuh", "Firewall", "Dozzle", "Docker"],
       },
       {
+        art: "data",
+        image: "",
+        title: "Caderneta: OCR-powered bet tracker",
+        summary: "A multi-user web app that reads screenshots and turns them into data and stats.",
+        problem: "Logging bets by hand is slow and error-prone, and the data ends up scattered across screenshots.",
+        solution: "A React frontend with login and a backend that extracts the data from screenshots with OCR and stores only the result (images never stay on the server). A shared page shows pre-match analyses, predictions and hit rate. It runs in Docker behind nginx on its own Cloudflare subdomain, with deployment moving to Jenkins.",
+        result: "In production since October 2026, with real data and several users.",
+        tags: ["React", "OCR", "Docker", "nginx", "Jenkins"],
+        url: "https://apostas.andrecardoso.dev",
+      },
+      {
+        art: "clock",
+        image: "",
+        title: "Horas: self-hosted time clock",
+        summary: "A work-hours tracking app, hosted on my own server.",
+        problem: "Commercial time-clock tools are paid and keep your schedule data on someone else's servers.",
+        solution: "A web app in Docker, published on a subdomain with nginx as a reverse proxy and HTTPS, on the same Wazuh-monitored VPS.",
+        result: "Clock-in and clock-out from any device, with the data under my control.",
+        tags: ["Docker", "nginx", "Self-hosting"],
+        url: "https://horas.andrecardoso.dev",
+      },
+      {
+        art: "ai",
+        image: "",
+        title: "SAP purchasing automation with OpenRPA",
+        summary: "A robot that creates purchase requisitions and orders in SAP with no manual input.",
+        problem: "Creating purchase requisitions (PR) and orders (PO) in SAP from another system's data was manual, repetitive work.",
+        solution: "An OpenRPA robot that reads the data from the other software's API and fills in SAP automatically.",
+        result: "Less manual data entry and fewer errors in a process that runs every day.",
+        tags: ["OpenRPA", "SAP", "API", "Automation"],
+      },
+      {
         art: "web",
         image: "", // ✏️ opcional: ex. "/images/web.png" (põe o ficheiro em frontend/public/images/)
         title: "This site, from server to screen",
         summary: "A portfolio with a frontend, an API and a private area, hosted and secured by me.",
         problem: "I wanted my own fast, secure site without depending on third-party platforms.",
-        solution: "React and a Node API in Docker, behind nginx with Let's Encrypt HTTPS, Cloudflare DNS, security headers and a migration from the old domain with 301 redirects.",
+        solution: "React and a Node API with Docker Compose, behind nginx with Let's Encrypt HTTPS, Cloudflare DNS, security headers, JWT login with brute-force protection, and a dashboard that checks whether each project is online.",
         result: "A site on its own domain, HTTPS-only, with automatic certificate renewal.",
         tags: ["React", "Node.js", "nginx", "Cloudflare"],
-      },
-      {
-        // ✏️ Confirm and complete this project with the real details
-        art: "ai",
-        image: "",
-        title: "TaskIA",
-        summary: "An everyday tool with a language model built in.",
-        problem: "✏️ What problem does it solve?",
-        solution: "✏️ How does it work and what does it use?",
-        result: "✏️ What changed for the people using it?",
-        tags: ["AI", "Python"],
+        repo: "https://github.com/Blacktouro/portfolio",
       },
     ],
 
     skills: [
-      { title: "Servers", text: "Linux, Docker, nginx and certificates. I deploy and maintain my own applications." },
-      { title: "Security", text: "Firewalls, hardening, SIEM and log analysis." },
+      { title: "Servers", text: "5 years of Linux in production. Docker, Docker Compose, nginx and certificates; I deploy and maintain my own applications." },
+      { title: "CI/CD and automation", text: "Jenkins pipelines in Docker, Git and GitHub, Bash and Python scripting, and RPA for business processes." },
+      { title: "Security and observability", text: "Firewalls, hardening, Wazuh SIEM, log centralisation and analysis." },
       { title: "Development", text: "React interfaces and Node and Python APIs, with authentication and databases." },
-      { title: "Support", text: "Years of helpdesk: I can explain technology to non-technical people." },
     ],
 
     likes: [
       "Automating anything I repeat more than twice",
       "Self-hosting and tinkering with my VPS",
-      "Coffee and good headphones",
+      "Monitoring: dashboards, alerts and logs",
       "Football on weekends",
       "Learning one new technology per project",
     ],
@@ -216,6 +277,8 @@ export const content = {
       waText: "Hi André, I saw your website and would like to talk.",
       details: "See details",
       hideDetails: "Hide details",
+      visit: "Visit",
+      code: "Code",
       bookCall: "Book a call",
       servicesTitle: "How I can help",
       casesTitle: "Projects",
@@ -227,7 +290,7 @@ export const content = {
       stackLabel: "Technologies",
       likesTitle: "What I enjoy",
       contactTitle: "Let's talk",
-      contactText: "Running a server with no monitoring, or want to use AI without sending your data abroad? Reach me on WhatsApp or by email.",
+      contactText: "Looking for a DevOps engineer or sysadmin, running a server with no monitoring, or want to use AI without sending your data abroad? Reach me on WhatsApp or by email.",
       privateText: "Private dashboard",
       login: "Sign in",
       logout: "Sign out",

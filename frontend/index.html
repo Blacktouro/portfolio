@@ -1,18 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="__LANG__">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- SEO básico -->
-    <title>André Cardoso | DevOps &amp; Linux Sysadmin · Docker, CI/CD &amp; Security</title>
-    <meta name="description" content="Linux sysadmin with 5 years of experience, focused on DevOps. Docker, nginx, CI/CD with Jenkins, Wazuh security and self-hosted apps in production. Based in Portugal." />
+    <!-- Título, descrição, canonical, Open Graph e dados estruturados: gerados por página no build (src/routes.js) -->
+    <!--app-head-->
     <meta name="author" content="André Cardoso" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <link rel="canonical" href="https://andrecardoso.dev/" />
-    <link rel="alternate" hreflang="en" href="https://andrecardoso.dev/" />
-    <link rel="alternate" hreflang="pt-PT" href="https://andrecardoso.dev/" />
-    <link rel="alternate" hreflang="x-default" href="https://andrecardoso.dev/" />
     <link rel="me" href="https://github.com/Blacktouro" />
     <meta name="theme-color" content="#14213D" />
 
@@ -22,118 +16,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Pré-visualização no LinkedIn, WhatsApp, Facebook -->
-    <meta property="og:type" content="profile" />
-    <meta property="og:url" content="https://andrecardoso.dev/" />
-    <meta property="og:site_name" content="André Cardoso" />
-    <meta property="og:title" content="André Cardoso | DevOps &amp; Linux Sysadmin" />
-    <meta property="og:description" content="Docker, CI/CD, monitoring and server security. Self-hosted apps in production on infrastructure I run myself. Portugal." />
-    <meta property="og:image" content="https://andrecardoso.dev/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="André Cardoso — DevOps, Linux and server security" />
-    <meta property="og:locale" content="en_GB" />
-    <meta property="og:locale:alternate" content="pt_PT" />
-    <meta property="profile:first_name" content="André" />
-    <meta property="profile:last_name" content="Cardoso" />
-
-    <!-- Pré-visualização no X/Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="André Cardoso | DevOps &amp; Linux Sysadmin" />
-    <meta name="twitter:description" content="Docker, CI/CD, monitoring and server security. Self-hosted apps in production." />
-    <meta name="twitter:image" content="https://andrecardoso.dev/og-image.png" />
-    <meta name="twitter:image:alt" content="André Cardoso — DevOps, Linux and server security" />
-
-    <!-- Dados estruturados: ajudam o Google a perceber quem és, o que fazes e os teus projetos -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://andrecardoso.dev/#website",
-          "url": "https://andrecardoso.dev/",
-          "name": "André Cardoso",
-          "inLanguage": ["en", "pt-PT"],
-          "publisher": { "@id": "https://andrecardoso.dev/#person" }
-        },
-        {
-          "@type": "ProfilePage",
-          "@id": "https://andrecardoso.dev/#profile",
-          "url": "https://andrecardoso.dev/",
-          "name": "André Cardoso | DevOps & Linux Sysadmin",
-          "isPartOf": { "@id": "https://andrecardoso.dev/#website" },
-          "mainEntity": { "@id": "https://andrecardoso.dev/#person" },
-          "dateModified": "2026-10-20"
-        },
-        {
-          "@type": "Person",
-          "@id": "https://andrecardoso.dev/#person",
-          "name": "André Cardoso",
-          "url": "https://andrecardoso.dev/",
-          "image": "https://andrecardoso.dev/og-image.png",
-          "jobTitle": "Linux Sysadmin and DevOps Engineer",
-          "description": "Linux sysadmin with 5 years of experience, focused on DevOps: Docker, CI/CD, monitoring and server security.",
-          "email": "mailto:salvador0988@sapo.pt",
-          "telephone": "+351938041038",
-          "address": { "@type": "PostalAddress", "addressLocality": "Peniche", "addressCountry": "PT" },
-          "sameAs": ["https://github.com/Blacktouro"],
-          "knowsLanguage": ["pt-PT", "en"],
-          "knowsAbout": ["DevOps", "Linux server administration", "Docker", "Docker Compose", "CI/CD", "Jenkins", "nginx", "Cloudflare", "Wazuh", "SIEM", "Server hardening", "Monitoring", "Self-hosting", "RPA", "OpenRPA", "SAP", "React", "Node.js", "Python"]
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://andrecardoso.dev/#service",
-          "name": "André Cardoso — DevOps & server security",
-          "url": "https://andrecardoso.dev/",
-          "image": "https://andrecardoso.dev/og-image.png",
-          "description": "Server security and monitoring, CI/CD and app deployment, process automation and private AI for small businesses.",
-          "founder": { "@id": "https://andrecardoso.dev/#person" },
-          "telephone": "+351938041038",
-          "email": "salvador0988@sapo.pt",
-          "address": { "@type": "PostalAddress", "addressLocality": "Peniche", "addressCountry": "PT" },
-          "areaServed": ["Portugal", "European Union"],
-          "availableLanguage": ["Portuguese", "English"]
-        },
-        {
-          "@type": "ItemList",
-          "@id": "https://andrecardoso.dev/#projects",
-          "name": "Projects",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "Security monitoring on a VPS", "description": "Firewall, Wazuh SIEM and Dozzle for real-time alerts on an internet-facing server.", "author": { "@id": "https://andrecardoso.dev/#person" } } },
-            { "@type": "ListItem", "position": 2, "item": { "@type": "WebApplication", "name": "Caderneta", "url": "https://apostas.andrecardoso.dev", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Web", "description": "Multi-user bet tracker that reads screenshots with OCR. React, Docker, nginx.", "author": { "@id": "https://andrecardoso.dev/#person" } } },
-            { "@type": "ListItem", "position": 3, "item": { "@type": "WebApplication", "name": "Horas", "url": "https://horas.andrecardoso.dev", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "description": "Self-hosted time clock app running in Docker behind nginx.", "author": { "@id": "https://andrecardoso.dev/#person" } } },
-            { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "SAP purchasing automation with OpenRPA", "description": "Robot that creates SAP purchase requisitions and orders from another system's API.", "author": { "@id": "https://andrecardoso.dev/#person" } } },
-            { "@type": "ListItem", "position": 5, "item": { "@type": "SoftwareSourceCode", "name": "andrecardoso.dev portfolio", "codeRepository": "https://github.com/Blacktouro/portfolio", "programmingLanguage": ["JavaScript", "React", "Node.js"], "author": { "@id": "https://andrecardoso.dev/#person" } } }
-          ]
-        }
-      ]
-    }
-    </script>
-
     <!-- Umami. Quando tiveres o stats.andrecardoso.dev, troca só o endereço do script. -->
     <script defer src="https://umami.andre-cardoso.duckdns.org/script.js" data-website-id="e13088dd-d429-4e9c-805d-8a6372ab1e66"></script>
   </head>
   <body>
-    <div id="root"></div>
-
-    <!-- Conteúdo para quem não corre JavaScript (alguns motores de busca, pré-visualizações e leitores) -->
-    <noscript>
-      <h1>André Cardoso — DevOps and Linux sysadmin</h1>
-      <p>Linux sysadmin with 5 years of experience, moving into DevOps. I take apps to production with Docker, CI/CD, monitoring and security, on servers I run myself. Based in Peniche, Portugal.</p>
-      <h2>Projects</h2>
-      <ul>
-        <li><strong>Security monitoring on a VPS</strong>: firewall, Wazuh SIEM and Dozzle, with real-time alerts on login attempts and scans.</li>
-        <li><strong><a href="https://apostas.andrecardoso.dev">Caderneta</a></strong>: multi-user bet tracker that reads screenshots with OCR. React, Docker, nginx, Cloudflare, Jenkins.</li>
-        <li><strong><a href="https://horas.andrecardoso.dev">Horas</a></strong>: self-hosted time clock app in Docker behind nginx with HTTPS.</li>
-        <li><strong>SAP purchasing automation</strong>: an OpenRPA robot that creates purchase requisitions and orders in SAP from another system's API.</li>
-        <li><strong><a href="https://github.com/Blacktouro/portfolio">This site</a></strong>: React and a Node API with Docker Compose, behind nginx with Let's Encrypt and Cloudflare.</li>
-      </ul>
-      <h2>Skills</h2>
-      <p>Linux, Docker, Docker Compose, nginx, Jenkins, CI/CD, Git, Wazuh, Cloudflare, Bash, Python, React, Node.js, OpenRPA, SAP.</p>
-      <h2>Contact</h2>
-      <p>WhatsApp: <a href="https://wa.me/351938041038">+351 938 041 038</a> · Email: <a href="mailto:salvador0988@sapo.pt">salvador0988@sapo.pt</a> · GitHub: <a href="https://github.com/Blacktouro">Blacktouro</a></p>
-    </noscript>
+    <div id="root"><!--app-html--></div>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>

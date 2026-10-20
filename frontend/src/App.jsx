@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { content, links, stack } from "./content.js";
 import { pathFor, findProject, findArticle, sortedArticles } from "./routes.js";
 import { cv } from "./cv.js";
+import { landing } from "./services.js";
 import "./extra.css";
 
 const API = "/api";
@@ -59,6 +60,7 @@ export default function App({ route }) {
   if (user) page = <Projects user={user} ui={ui} onExpired={logout} />;
   else if (route.kind === "home") page = <Home c={c} ui={ui} lang={lang} onLogin={() => setLoginOpen(true)} />;
   else if (route.kind === "project") page = <ProjectPage p={findProject(lang, route.slug)} c={c} ui={ui} lang={lang} />;
+  else if (route.kind === "landing") page = <LandingPage lang={lang} c={c} />;
   else if (route.kind === "cv") page = <CvPage lang={lang} c={c} />;
   else if (route.kind === "articles") page = <ArticlesIndex ui={ui} lang={lang} c={c} />;
   else if (route.kind === "article") page = <ArticlePage a={findArticle(route.slug)} ui={ui} lang={lang} c={c} />;
@@ -75,6 +77,7 @@ export default function App({ route }) {
         <nav className="topbar-actions" aria-label={lang === "pt" ? "Principal" : "Main"}>
           <a className="nav-link" href={`${home}#projetos`}>{ui.navProjects}</a>
           <a className="nav-link" href={pathFor(lang, "articles")}>{ui.navArticles}</a>
+          <a className="nav-link" href={pathFor(lang, "landing")}>{landing[lang].navLabel}</a>
           <a className="nav-link" href={pathFor(lang, "cv")}>{ui.navCv}</a>
           <a className="btn ghost lang-toggle" href={route.alt} hrefLang={lang === "pt" ? "en" : "pt-PT"} aria-label={ui.switchLabel}>
             {ui.switchTo}
@@ -127,6 +130,9 @@ function ServiceIcon({ name }) {
   if (name === "shield") return (
     <svg {...common}><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
   );
+  if (name === "web") return (
+    <svg {...common}><rect x="3" y="4" width="18" height="14" rx="2" /><path d="M3 8h18M7 6h.01M10 6h.01" /><path d="M8 21h8M12 18v3" /></svg>
+  );
   if (name === "spark") return (
     <svg {...common}><path d="M12 3v4M12 17v4M3 12h4M17 12h4" /><path d="M12 8l1.5 2.5L16 12l-2.5 1.5L12 16l-1.5-2.5L8 12l2.5-1.5z" /></svg>
   );
@@ -148,6 +154,22 @@ function CaseArt({ kind }) {
       {[[240, 120], [270, 90], [300, 140], [330, 70]].map(([x, h], i) =>
         <rect key={i} x={x} y={190 - h} width="22" height={h} rx="4" fill={i === 3 ? "#5fd3b4" : "#7fb2e5"} />)}
       <path d="M240 60l30 22 30-14 40 -24" stroke="#ff7a6b" strokeWidth="3" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+  if (kind === "beauty") return (
+    <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#5a2a3f" />
+      <circle cx="70" cy="40" r="60" fill="#7a3a55" />
+      <rect x="130" y="26" width="140" height="176" rx="18" fill="#fff4f7" />
+      <rect x="146" y="44" width="108" height="56" rx="10" fill="#f3b6c8" />
+      <circle cx="200" cy="72" r="16" fill="#fff4f7" />
+      <path d="M192 72c0-6 16-6 16 0s-16 6-16 0" fill="#f3b6c8" />
+      <rect x="146" y="112" width="80" height="8" rx="4" fill="#c88aa0" />
+      <rect x="146" y="126" width="100" height="8" rx="4" fill="#e2bccb" />
+      <rect x="146" y="140" width="64" height="8" rx="4" fill="#e2bccb" />
+      <rect x="146" y="164" width="108" height="24" rx="12" fill="#25d366" />
+      <path d="M190 176h20" stroke="#fff" strokeWidth="4" strokeLinecap="round" />
+      {[[310, 60], [330, 110], [300, 160]].map(([x, y], i) => <path key={i} d={`M${x} ${y - 9}l2.6 6 6.4.6-4.8 4.2 1.4 6.3-5.6-3.3-5.6 3.3 1.4-6.3-4.8-4.2 6.4-.6z`} fill="#ffd166" />)}
     </svg>
   );
   if (kind === "clock") return (
@@ -270,6 +292,12 @@ function Home({ c, ui, lang, onLogin }) {
               <p>{s.text}</p>
             </article>
           ))}
+          <article className="service-card icon-web featured">
+            <span className="service-icon"><ServiceIcon name="web" /></span>
+            <h3><a href={pathFor(lang, "landing")}>{landing[lang].cardTitle}</a></h3>
+            <p>{landing[lang].cardText}</p>
+            <p className="case-links"><a href={pathFor(lang, "landing")}>{landing[lang].cardLink} →</a></p>
+          </article>
         </div>
       </section>
 
@@ -693,6 +721,68 @@ function CvPage({ lang, c }) {
           </section>
         </div>
       </article>
+    </main>
+  );
+}
+
+function LandingPage({ lang, c }) {
+  const L = landing[lang];
+  const ui = c.ui;
+  const wa = waLink(L.waText);
+  const example = c.cases.find((p) => p.slug === "vivace-beauty");
+  return (
+    <main className="page landing">
+      <Crumbs items={[[c.name, pathFor(lang, "home")], [L.navLabel]]} />
+      <header className="detail-head">
+        <h1>{L.title}</h1>
+        <p className="lead">{L.lead}</p>
+        <p className="actions">
+          <a className="btn wa" href={wa} target="_blank" rel="noopener"><ChatIcon /> {ui.whatsapp}</a>
+          <a className="btn ghost" href={`mailto:${links.email}?subject=${encodeURIComponent(L.cardTitle)}`}>{ui.contactMe}</a>
+        </p>
+      </header>
+
+      <section>
+        <h2 className="section-title">{L.includedTitle}</h2>
+        <ul className="included">
+          {L.included.map(([t, d]) => (
+            <li key={t}><strong>{t}</strong><span>{d}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 className="section-title">{L.stepsTitle}</h2>
+        <ol className="steps">
+          {L.steps.map(([t, d]) => (
+            <li key={t}><strong>{t}</strong><span>{d}</span></li>
+          ))}
+        </ol>
+      </section>
+
+      {example && (
+        <section>
+          <h2 className="section-title">{L.exampleTitle}</h2>
+          <p className="prose">{L.exampleText}</p>
+          <div className="case-grid single">
+            <CaseCard p={example} ui={ui} lang={lang} />
+          </div>
+        </section>
+      )}
+
+      <section>
+        <h2 className="section-title">{L.faqTitle}</h2>
+        <div className="faq">
+          {L.faq.map(([q, a]) => (
+            <details key={q}>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <ContactCard ui={{ ...ui, waText: L.waText }} title={L.ctaTitle} text={L.ctaText} />
     </main>
   );
 }

@@ -3,6 +3,7 @@
 import { content, links, seo } from "./content.js";
 import { articles } from "./articles.js";
 import { cv } from "./cv.js";
+import { landing } from "./services.js";
 
 export const SITE = "https://andrecardoso.dev";
 const PERSON_ID = `${SITE}/#person`;
@@ -19,6 +20,7 @@ export function pathFor(lang, kind, slug) {
   if (kind === "home") return `${p}/`;
   if (kind === "articles") return `${p}/${seg[lang].articles}/`;
   if (kind === "cv") return `${p}/cv/`;
+  if (kind === "landing") return `${p}/landing-pages/`;
   if (kind === "project") return `${p}/${seg[lang].projects}/${slug}/`;
   if (kind === "article") return `${p}/${seg[lang].articles}/${slug}/`;
   return "/";
@@ -35,6 +37,7 @@ export function allRoutes() {
   for (const lang of ["pt", "en"]) {
     list.push(route(lang, "home"));
     list.push(route(lang, "cv"));
+    list.push(route(lang, "landing"));
     for (const p of content[lang].cases) list.push(route(lang, "project", p.slug));
     list.push(route(lang, "articles"));
     for (const a of articles) list.push(route(lang, "article", a.slug));
@@ -151,6 +154,35 @@ export function headFor(r) {
         inLanguage: lang === "pt" ? "pt-PT" : "en",
         author: authorRef,
         ...(p.repo ? { codeRepository: p.repo } : {}),
+      },
+    ];
+  } else if (r.kind === "landing") {
+    const L = landing[lang];
+    title = L.seoTitle;
+    description = L.description;
+    graph = [
+      crumbs([home, [L.navLabel, r.path]]),
+      {
+        "@type": "Service",
+        name: L.cardTitle,
+        serviceType: lang === "pt" ? "Criação de landing pages e alojamento web" : "Landing page design and web hosting",
+        description: L.description,
+        url: abs(r.path),
+        provider: { ...authorRef, telephone: `+${links.whatsapp}`, email: links.email },
+        areaServed: [
+          { "@type": "City", name: "Peniche" },
+          { "@type": "AdministrativeArea", name: "Leiria" },
+          { "@type": "Country", name: "Portugal" },
+        ],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: L.includedTitle,
+          itemListElement: L.included.map(([n, d]) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n, description: d } })),
+        },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: L.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
       },
     ];
   } else if (r.kind === "cv") {

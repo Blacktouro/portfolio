@@ -1,0 +1,93 @@
+// ✏️ Página do serviço de landing pages: /landing-pages/ e /en/landing-pages/
+
+export const landing = {
+  pt: {
+    navLabel: "Landing pages",
+    title: "Landing pages chave na mão em Peniche e em todo o país",
+    seoTitle: "Landing pages chave na mão | Site, domínio, email e alojamento | André Cardoso",
+    description:
+      "Crio a landing page do teu negócio e trato de tudo: domínio, alojamento, email profissional, DNS, HTTPS e suporte. Peniche, região Oeste e todo o país.",
+    lead: "Crio a página do teu negócio e trato de tudo o que vem à volta: domínio, alojamento, email profissional, DNS e suporte. Tu só tens de me dizer o que vendes.",
+    includedTitle: "O que está incluído",
+    included: [
+      ["Design e desenvolvimento", "Uma página rápida, feita à medida, que funciona bem no telemóvel. Em português e, se quiseres, em inglês."],
+      ["Domínio", "Registo e configuração do teu domínio .pt ou .com, em teu nome."],
+      ["Alojamento", "O site fica alojado e monitorizado num servidor que eu giro, com backups."],
+      ["Email profissional", "Endereços no teu domínio, como geral@oteunegocio.pt, configurados no telemóvel e no computador."],
+      ["DNS e HTTPS", "DNS na Cloudflare, certificado SSL automático e registos de email (SPF, DKIM, DMARC) para não caíres no spam."],
+      ["Contacto direto", "Botões de WhatsApp, chamada e mapa, para o cliente falar contigo num clique."],
+      ["SEO de base", "Título, descrição, dados estruturados e ligação ao Perfil de Empresa no Google, para te encontrarem nas pesquisas locais."],
+      ["Suporte", "Alterações de texto e fotos, ajuda com o email e um contacto direto comigo, sem call centers."],
+    ],
+    stepsTitle: "Como funciona",
+    steps: [
+      ["Conversa", "Falamos por WhatsApp ou ao vivo sobre o teu negócio, os teus clientes e o que queres que a página faça."],
+      ["Proposta", "Envio-te uma proposta com o que está incluído e o preço, sem surpresas."],
+      ["Construção", "Faço a página com os teus textos e fotos e mostro-ta antes de ir para o ar."],
+      ["Online", "Ligo o domínio, o email e o HTTPS, e a página fica publicada."],
+      ["Acompanhamento", "Continuo disponível para mudanças, dúvidas e manutenção."],
+    ],
+    exampleTitle: "Exemplo: Vivace Beauty",
+    exampleText:
+      "Landing page para um salão de cabeleireiro e estética em Peniche: serviços, equipa, galeria, avaliações e marcação por WhatsApp, em português e inglês, com domínio .pt próprio.",
+    faqTitle: "Perguntas frequentes",
+    faq: [
+      ["Quanto custa?", "Depende do que precisas (número de secções, línguas, email). Fala comigo e envio-te uma proposta fechada, com o valor da criação e o valor anual do alojamento e domínio separados."],
+      ["O domínio fica em meu nome?", "Sim. O domínio é teu. Se um dia quiseres mudar de fornecedor, levas o domínio e o conteúdo contigo."],
+      ["Quanto tempo demora?", "Depende sobretudo de teres os textos e as fotos prontos. Com o material em mão, é uma questão de dias, não de meses."],
+      ["Posso pedir alterações depois?", "Sim. Pequenas alterações de texto, preços ou fotos fazem parte do suporte."],
+      ["Já tenho domínio ou email. Serve?", "Sim. Posso usar o domínio e o email que já tens e tratar só do que falta."],
+    ],
+    ctaTitle: "Queres uma página para o teu negócio?",
+    ctaText: "Diz-me o que fazes e eu digo-te como fica online. Respondo por WhatsApp ou email.",
+    waText: "Olá André, vi o teu site e queria uma landing page para o meu negócio.",
+    cardTitle: "Landing pages chave na mão",
+    cardText: "A página do teu negócio com domínio, alojamento, email profissional, DNS e suporte. Tratas de tudo comigo.",
+    cardLink: "Saber mais",
+  },
+
+  en: {
+    navLabel: "Landing pages",
+    title: "Turnkey landing pages for small businesses",
+    seoTitle: "Turnkey landing pages | Website, domain, email and hosting | André Cardoso",
+    description:
+      "I build your business landing page and handle everything around it: domain, hosting, professional email, DNS, HTTPS and support. Based in Portugal.",
+    lead: "I build your business page and handle everything around it: domain, hosting, professional email, DNS and support. All you need to tell me is what you sell.",
+    includedTitle: "What's included",
+    included: [
+      ["Design and development", "A fast, custom page that works well on phones. In Portuguese and, if you like, in English."],
+      ["Domain", "Registration and setup of your .pt or .com domain, in your name."],
+      ["Hosting", "Your site is hosted and monitored on a server I run, with backups."],
+      ["Professional email", "Addresses on your own domain, like hello@yourbusiness.com, set up on your phone and computer."],
+      ["DNS and HTTPS", "DNS on Cloudflare, automatic SSL certificate and email records (SPF, DKIM, DMARC) so you stay out of spam."],
+      ["Direct contact", "WhatsApp, call and map buttons, so customers can reach you in one tap."],
+      ["SEO basics", "Title, description, structured data and a link to your Google Business Profile, so people find you in local searches."],
+      ["Support", "Text and photo changes, help with email and a direct line to me, no call centres."],
+    ],
+    stepsTitle: "How it works",
+    steps: [
+      ["Chat", "We talk on WhatsApp or in person about your business, your customers and what the page should do."],
+      ["Proposal", "I send you a proposal with what's included and the price, no surprises."],
+      ["Build", "I build the page with your texts and photos and show it to you before it goes live."],
+      ["Live", "I connect the domain, email and HTTPS, and the page is published."],
+      ["Ongoing", "I stay available for changes, questions and maintenance."],
+    ],
+    exampleTitle: "Example: Vivace Beauty",
+    exampleText:
+      "Landing page for a hair and beauty salon in Peniche: services, team, gallery, reviews and WhatsApp booking, in Portuguese and English, on its own .pt domain.",
+    faqTitle: "FAQ",
+    faq: [
+      ["How much does it cost?", "It depends on what you need (number of sections, languages, email). Get in touch and I'll send a fixed proposal, with the build price and the yearly hosting and domain cost shown separately."],
+      ["Is the domain in my name?", "Yes. The domain is yours. If you ever want to switch providers, you take the domain and the content with you."],
+      ["How long does it take?", "Mostly it depends on having your texts and photos ready. With the material in hand, it's a matter of days, not months."],
+      ["Can I ask for changes later?", "Yes. Small changes to text, prices or photos are part of the support."],
+      ["I already have a domain or email. Does that work?", "Yes. I can use the domain and email you already have and handle only what's missing."],
+    ],
+    ctaTitle: "Want a page for your business?",
+    ctaText: "Tell me what you do and I'll tell you how it goes online. I reply on WhatsApp or by email.",
+    waText: "Hi André, I saw your website and I'd like a landing page for my business.",
+    cardTitle: "Turnkey landing pages",
+    cardText: "Your business page with domain, hosting, professional email, DNS and support. One person handles it all.",
+    cardLink: "Learn more",
+  },
+};

@@ -51,9 +51,9 @@ export const cv = {
     projects: [
       { name: "Caderneta", project: "caderneta", text: "Multi-user web app in production that reads screenshots with OCR and turns them into stats. React, Docker, nginx, Cloudflare; deployment moving to Jenkins." },
       { name: "VPS security monitoring", project: "wazuh-vps-security", text: "Wazuh SIEM, firewall and Dozzle on an internet-facing server, with real-time alerts on login attempts and scans." },
+      { name: "Vivace Beauty", project: "vivace-beauty", text: "Client landing page for a salon in Peniche: React + C#, own .pt domain, nginx in Docker, one-command deploy script." },
       { name: "Horas", project: "horas", text: "Self-hosted time-clock app in Docker behind nginx with HTTPS." },
       { name: "andrecardoso.dev", project: "portfolio", text: "Pre-rendered React site and Node API with Docker Compose, nginx and Let's Encrypt, with technical articles." },
-      { name: "Personal cloud", text: "Raspberry Pi with Docker and secure remote access for photo storage and backups." },
     ],
     education: [
       ["Technical Course in Computer Systems and Networks", "2020"],
@@ -124,9 +124,9 @@ export const cv = {
     projects: [
       { name: "Caderneta", project: "caderneta", text: "App web multi-utilizador em produção que lê prints com OCR e os transforma em estatísticas. React, Docker, nginx, Cloudflare; deploy a evoluir para Jenkins." },
       { name: "Monitorização de segurança da VPS", project: "wazuh-vps-security", text: "Wazuh (SIEM), firewall e Dozzle num servidor exposto à internet, com alertas em tempo real para tentativas de login e varrimentos." },
+      { name: "Vivace Beauty", project: "vivace-beauty", text: "Landing page de cliente para um salão em Peniche: React + C#, domínio .pt próprio, nginx em Docker e script de deploy num só comando." },
       { name: "Horas", project: "horas", text: "Pica-ponto self-hosted em Docker, atrás de nginx com HTTPS." },
       { name: "andrecardoso.dev", project: "portfolio", text: "Site React pré-renderizado e API Node com Docker Compose, nginx e Let's Encrypt, com artigos técnicos." },
-      { name: "Cloud pessoal", text: "Raspberry Pi com Docker e acesso remoto seguro para guardar fotos e backups." },
     ],
     education: [
       ["Curso Técnico de Sistemas Informáticos e Redes", "2020"],

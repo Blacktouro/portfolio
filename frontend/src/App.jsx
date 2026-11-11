@@ -172,6 +172,19 @@ function CaseArt({ kind }) {
       {[[310, 60], [330, 110], [300, 160]].map(([x, y], i) => <path key={i} d={`M${x} ${y - 9}l2.6 6 6.4.6-4.8 4.2 1.4 6.3-5.6-3.3-5.6 3.3 1.4-6.3-4.8-4.2 6.4-.6z`} fill="#ffd166" />)}
     </svg>
   );
+  if (kind === "bike") return (
+    <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <rect width="400" height="220" fill="#1d3b2a" />
+      <path d="M0 170l70-50 50 30 70-70 80 60 50-30 80 50v60H0z" fill="#2f5a40" />
+      <path d="M0 190l90-30 90 20 100-35 120 40v35H0z" fill="#3d6e4f" />
+      <circle cx="330" cy="50" r="20" fill="#ffd166" />
+      <circle cx="140" cy="165" r="34" fill="none" stroke="#f4f1ea" strokeWidth="6" />
+      <circle cx="260" cy="165" r="34" fill="none" stroke="#f4f1ea" strokeWidth="6" />
+      <path d="M140 165l40-58h62l18 58M180 107l26 58 36-58M206 165h-66" stroke="#ff7a6b" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M170 98h22M236 92l6 15h14" stroke="#f4f1ea" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="206" cy="165" r="6" fill="#f4f1ea" />
+    </svg>
+  );
   if (kind === "clock") return (
     <svg viewBox="0 0 400 220" role="img" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <rect width="400" height="220" fill="#1f4d36" />

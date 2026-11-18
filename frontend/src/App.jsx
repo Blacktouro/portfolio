@@ -420,6 +420,120 @@ function LoginDialog({ ui, onClose, onSuccess }) {
 }
 
 function Projects({ user, ui, onExpired }) {
+  const [tab, setTab] = useState("projects");
+  return (
+    <main className="projects">
+      <div className="projects-head">
+        <h1>{ui.greeting(user)}</h1>
+        <nav className="panel-menu" aria-label={ui.privateText}>
+          {[["projects", ui.tabProjects], ["boards", ui.tabBoards]].map(([id, label]) => (
+            <button key={id} className={tab === id ? "active" : ""} aria-current={tab === id ? "page" : undefined} onClick={() => setTab(id)}>
+              {label}
+            </button>
+          ))}
+        </nav>
+      </div>
+      {tab === "projects" ? <ProjectsTab ui={ui} onExpired={onExpired} /> : <BoardsTab ui={ui} onExpired={onExpired} />}
+    </main>
+  );
+}
+
+function BoardsTab({ ui, onExpired }) {
+  const [boards, setBoards] = useState(null);
+  const [error, setError] = useState("");
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ title: "", url: "", note: "" });
+  const [saving, setSaving] = useState(false);
+
+  const fail = (e) => (e.status === 401 ? onExpired() : setError(e.message || ui.serverError));
+
+  useEffect(() => {
+    api("/whiteboards").then(setBoards).catch(fail);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  async function add(e) {
+    e.preventDefault();
+    setError("");
+    setSaving(true);
+    try {
+      const item = await api("/whiteboards", { method: "POST", body: JSON.stringify(form) });
+      setBoards((b) => [item, ...(b || [])]);
+      setForm({ title: "", url: "", note: "" });
+      setOpen(false);
+    } catch (err) {
+      fail(err);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function remove(id) {
+    if (!window.confirm(ui.boardConfirm)) return;
+    try {
+      await api(`/whiteboards/${id}`, { method: "DELETE" });
+      setBoards((b) => b.filter((x) => x.id !== id));
+    } catch (err) {
+      fail(err);
+    }
+  }
+
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+
+  return (
+    <>
+      <div className="boards-bar">
+        <p className="lead panel-count">{boards ? ui.boardsLead(boards.length) : ui.loading}</p>
+        <button className="board-add-toggle" onClick={() => setOpen(!open)} aria-expanded={open}>
+          {ui.boardAddToggle}
+        </button>
+      </div>
+
+      {open && (
+        <form className="board-form" onSubmit={add}>
+          <label>
+            {ui.boardUrl}
+            <input type="url" inputMode="url" placeholder="https://claude.ai/artifact/…" value={form.url} onChange={set("url")} required autoFocus />
+          </label>
+          <label>
+            {ui.boardTitle}
+            <input value={form.title} onChange={set("title")} maxLength={80} required />
+          </label>
+          <label>
+            {ui.boardNote}
+            <input value={form.note} onChange={set("note")} maxLength={200} />
+          </label>
+          <div className="dialog-actions">
+            <button type="button" className="btn ghost" onClick={() => setOpen(false)}>{ui.cancel}</button>
+            <button type="submit" className="btn solid" disabled={saving}>{ui.boardSave}</button>
+          </div>
+        </form>
+      )}
+
+      {error && <p className="error" role="alert">{error}</p>}
+
+      {boards && boards.length > 0 && (
+        <ul className="project-list">
+          {boards.map((b) => (
+            <li key={b.id} className="board-row">
+              <a href={b.url} target="_blank" rel="noreferrer" className="project">
+                <span className="dot on" aria-hidden="true" />
+                <span className="p-main">
+                  <span className="p-name">{b.title}</span>
+                  {b.note && <span className="p-desc">{b.note}</span>}
+                  <span className="p-desc">{new URL(b.url).hostname} · {b.added.slice(0, 10)}</span>
+                </span>
+                <span className="p-url">{ui.boardOpen} ↗</span>
+              </a>
+              <button className="board-remove" onClick={() => remove(b.id)}>{ui.boardRemove}</button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+function ProjectsTab({ ui, onExpired }) {
   const [projects, setProjects] = useState(null);
   const [status, setStatus] = useState({});
   const [error, setError] = useState("");
@@ -434,11 +548,8 @@ function Projects({ user, ui, onExpired }) {
   }, [onExpired, ui.serverError]);
 
   return (
-    <main className="projects">
-      <div className="projects-head">
-        <h1>{ui.greeting(user)}</h1>
-        <p className="lead">{projects ? ui.projectCount(projects.length) : ui.loading}</p>
-      </div>
+    <>
+      <p className="lead panel-count">{projects ? ui.projectCount(projects.length) : ui.loading}</p>
 
       {error && <p className="error">{error}</p>}
 
@@ -469,7 +580,7 @@ function Projects({ user, ui, onExpired }) {
           })}
         </ul>
       )}
-    </main>
+    </>
   );
 }
 

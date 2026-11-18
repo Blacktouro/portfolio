@@ -16,6 +16,8 @@ if (!ADMIN_USER || !ADMIN_PASSWORD || !JWT_SECRET) {
 }
 
 const PROJECTS_FILE = "/app/data/projects.json";
+const BOARDS_FILE = "/app/storage/whiteboards.json"; // pasta com escrita (ver docker-compose.yml)
+const MAX_BOARDS = 200;
 const app = express();
 app.use(express.json({ limit: "10kb" }));
 
@@ -111,6 +113,75 @@ app.get("/projects/status", requireAuth, async (_req, res) => {
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Não consegui verificar os projetos." });
+  }
+});
+
+/* ---------- Whiteboards (só no painel privado) ---------- */
+
+async function readBoards() {
+  try {
+    return JSON.parse(await fs.readFile(BOARDS_FILE, "utf8"));
+  } catch (e) {
+    if (e.code === "ENOENT") return [];
+    throw e;
+  }
+}
+
+async function writeBoards(list) {
+  const tmp = `${BOARDS_FILE}.tmp`;
+  await fs.writeFile(tmp, JSON.stringify(list, null, 2));
+  await fs.rename(tmp, BOARDS_FILE); // escreve primeiro num ficheiro temporário para nunca ficar meio gravado
+}
+
+function cleanBoard(body) {
+  const title = String(body?.title || "").trim().slice(0, 80);
+  const note = String(body?.note || "").trim().slice(0, 200);
+  let url;
+  try {
+    url = new URL(String(body?.url || "").trim());
+  } catch {
+    return { error: "O link não é válido." };
+  }
+  if (url.protocol !== "https:") return { error: "O link tem de começar por https://" };
+  if (!title) return { error: "Falta o título." };
+  return { title, note, url: url.toString() };
+}
+
+app.get("/whiteboards", requireAuth, async (_req, res) => {
+  try {
+    res.json(await readBoards());
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui ler os whiteboards." });
+  }
+});
+
+app.post("/whiteboards", requireAuth, async (req, res) => {
+  const b = cleanBoard(req.body);
+  if (b.error) return res.status(400).json({ error: b.error });
+  try {
+    const list = await readBoards();
+    if (list.length >= MAX_BOARDS) return res.status(400).json({ error: `Máximo de ${MAX_BOARDS} whiteboards.` });
+    const item = { id: crypto.randomUUID(), ...b, added: new Date().toISOString() };
+    list.unshift(item);
+    await writeBoards(list);
+    res.status(201).json(item);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui guardar. A pasta backend/storage tem permissões de escrita?" });
+  }
+});
+
+app.delete("/whiteboards/:id", requireAuth, async (req, res) => {
+  try {
+    const list = await readBoards();
+    const next = list.filter((b) => b.id !== req.params.id);
+    if (next.length === list.length) return res.status(404).json({ error: "Whiteboard não encontrado." });
+    await writeBoards(next);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui apagar." });
   }
 });
 

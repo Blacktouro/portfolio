@@ -10,3 +10,4 @@ obj/
 *.log
 frontend/src-backup/
 dist-ssr
+backend/storage/

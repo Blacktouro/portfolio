@@ -1,0 +1,163 @@
+/* Painel privado — emails enviados */
+.outreach { margin-top: 32px; }
+.outreach-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.outreach-head h2 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 56px);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.o-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.o-stats div {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.o-stats dt { font-size: 13px; color: var(--muted); }
+.o-stats dd {
+  margin: 2px 0 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.o-stats small { font-size: 15px; color: var(--muted); font-weight: 600; }
+
+.o-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.o-form .wide { grid-column: 1 / -1; }
+.o-form label, .o-field {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.o-form input, .o-field input, .o-field select, .o-notes {
+  font: inherit;
+  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  min-width: 0;
+}
+.o-form input:focus-visible, .o-field input:focus-visible,
+.o-field select:focus-visible, .o-notes:focus-visible {
+  border-color: var(--cobalt);
+  outline: none;
+}
+.o-form-actions { display: flex; justify-content: flex-end; }
+
+.o-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.o-chip {
+  font: inherit;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.o-chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.o-empty { margin-top: 24px; color: var(--muted); }
+
+.o-list { list-style: none; padding: 0; }
+.o-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: start;
+  padding: 20px 0 20px 14px;
+  border-bottom: 1px solid var(--line);
+  border-left: 4px solid transparent;
+}
+.o-item.won { border-left-color: var(--ok); }
+.o-item.lost { border-left-color: var(--bad); opacity: 0.75; }
+.o-main { display: grid; gap: 6px; min-width: 0; }
+.o-name { font-size: 19px; }
+.o-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.o-meta a { color: var(--cobalt); overflow-wrap: anywhere; }
+.o-flag {
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sun) 35%, transparent);
+}
+.o-notes { font-size: 14px; padding: 6px 10px; }
+
+.o-controls {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+.o-field input { width: 110px; }
+.o-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  padding-bottom: 10px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.o-check input { width: 18px; height: 18px; accent-color: var(--ok); }
+.o-delete {
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.o-delete:hover { color: var(--bad); border-color: var(--bad); }
+
+@media (max-width: 760px) {
+  .o-item { grid-template-columns: 1fr; gap: 12px; }
+  .o-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
+  }
+  .o-field input, .o-field select { width: 100%; }
+  .o-check { grid-column: 1 / -1; padding-bottom: 0; }
+}

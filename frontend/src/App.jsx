@@ -3,6 +3,7 @@ import { content, links, stack } from "./content.js";
 import { pathFor, findProject, findArticle, sortedArticles } from "./routes.js";
 import { cv } from "./cv.js";
 import { landing } from "./services.js";
+import Outreach from "./Outreach.jsx";
 import "./extra.css";
 
 const API = "/api";
@@ -426,14 +427,16 @@ function Projects({ user, ui, onExpired }) {
       <div className="projects-head">
         <h1>{ui.greeting(user)}</h1>
         <nav className="panel-menu" aria-label={ui.privateText}>
-          {[["projects", ui.tabProjects], ["boards", ui.tabBoards]].map(([id, label]) => (
+          {[["projects", ui.tabProjects], ["boards", ui.tabBoards], ["emails", "Emails"]].map(([id, label]) => (
             <button key={id} className={tab === id ? "active" : ""} aria-current={tab === id ? "page" : undefined} onClick={() => setTab(id)}>
               {label}
             </button>
           ))}
         </nav>
       </div>
-      {tab === "projects" ? <ProjectsTab ui={ui} onExpired={onExpired} /> : <BoardsTab ui={ui} onExpired={onExpired} />}
+      {tab === "projects" && <ProjectsTab ui={ui} onExpired={onExpired} />}
+      {tab === "boards" && <BoardsTab ui={ui} onExpired={onExpired} />}
+      {tab === "emails" && <Outreach api={api} onExpired={onExpired} />}
     </main>
   );
 }

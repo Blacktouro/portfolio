@@ -3,6 +3,7 @@ import { content, links, stack } from "./content.js";
 import { pathFor, findProject, findArticle, sortedArticles } from "./routes.js";
 import { cv } from "./cv.js";
 import { landing } from "./services.js";
+import Outreach from "./Outreach.jsx";
 import "./extra.css";
 
 const API = "/api";
@@ -469,6 +470,8 @@ function Projects({ user, ui, onExpired }) {
           })}
         </ul>
       )}
+
+      <Outreach api={api} onExpired={onExpired} />
     </main>
   );
 }

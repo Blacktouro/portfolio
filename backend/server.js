@@ -114,6 +114,115 @@ app.get("/projects/status", requireAuth, async (_req, res) => {
   }
 });
 
+// ---------- Emails enviados (contactos a clientes) ----------
+// Guardado num ficheiro JSON numa pasta com escrita (backend/storage no host)
+const OUTREACH_FILE = "/app/storage/outreach.json";
+const ACCEPTED = ["pendente", "sim", "nao"];
+
+async function readOutreach() {
+  try {
+    return JSON.parse(await fs.readFile(OUTREACH_FILE, "utf8"));
+  } catch (e) {
+    if (e.code === "ENOENT") return [];
+    throw e;
+  }
+}
+
+// Escreve para um ficheiro temporário e só depois troca: nunca fica meio escrito
+let writing = Promise.resolve();
+function saveOutreach(list) {
+  writing = writing.then(async () => {
+    const tmp = `${OUTREACH_FILE}.tmp`;
+    await fs.writeFile(tmp, JSON.stringify(list, null, 2));
+    await fs.rename(tmp, OUTREACH_FILE);
+  });
+  return writing;
+}
+
+function str(v, max = 200) {
+  return typeof v === "string" ? v.trim().slice(0, max) : "";
+}
+
+// Valida e limpa o que vem do browser
+function cleanEntry(body, base = {}) {
+  const b = body || {};
+  const e = { ...base };
+  if ("business" in b) e.business = str(b.business, 120);
+  if ("email" in b) e.email = str(b.email, 160);
+  if ("sentAt" in b) e.sentAt = /^\d{4}-\d{2}-\d{2}$/.test(b.sentAt) ? b.sentAt : base.sentAt || "";
+  if ("subject" in b) e.subject = str(b.subject, 200);
+  if ("replied" in b) e.replied = Boolean(b.replied);
+  if ("amount" in b) {
+    const n = b.amount === "" || b.amount === null ? null : Number(b.amount);
+    e.amount = Number.isFinite(n) && n >= 0 ? Math.round(n * 100) / 100 : null;
+  }
+  if ("accepted" in b) e.accepted = ACCEPTED.includes(b.accepted) ? b.accepted : "pendente";
+  if ("notes" in b) e.notes = str(b.notes, 1000);
+  return e;
+}
+
+app.get("/outreach", requireAuth, async (_req, res) => {
+  try {
+    res.json(await readOutreach());
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui ler os emails enviados." });
+  }
+});
+
+app.post("/outreach", requireAuth, async (req, res) => {
+  try {
+    const entry = cleanEntry(req.body, {
+      id: crypto.randomUUID(),
+      business: "",
+      email: "",
+      sentAt: new Date().toISOString().slice(0, 10),
+      subject: "",
+      replied: false,
+      amount: null,
+      accepted: "pendente",
+      notes: "",
+    });
+    if (!entry.business) return res.status(400).json({ error: "Falta o nome da empresa." });
+    const list = await readOutreach();
+    list.push(entry);
+    await saveOutreach(list);
+    res.status(201).json(entry);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui guardar. A pasta backend/storage tem permissões de escrita?" });
+  }
+});
+
+app.put("/outreach/:id", requireAuth, async (req, res) => {
+  try {
+    const list = await readOutreach();
+    const i = list.findIndex((x) => x.id === req.params.id);
+    if (i === -1) return res.status(404).json({ error: "Contacto não encontrado." });
+    const updated = cleanEntry(req.body, list[i]);
+    if (!updated.business) return res.status(400).json({ error: "Falta o nome da empresa." });
+    list[i] = updated;
+    await saveOutreach(list);
+    res.json(updated);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui guardar a alteração." });
+  }
+});
+
+app.delete("/outreach/:id", requireAuth, async (req, res) => {
+  try {
+    const list = await readOutreach();
+    const next = list.filter((x) => x.id !== req.params.id);
+    if (next.length === list.length) return res.status(404).json({ error: "Contacto não encontrado." });
+    await saveOutreach(next);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Não consegui apagar." });
+  }
+});
+
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
 app.listen(3000, () => console.log("Backend a correr na porta 3000"));
